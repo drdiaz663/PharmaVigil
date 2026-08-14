@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "745915031968",
+    "project_id": "infirmier-3778d",
+    "storage_bucket": "infirmier-3778d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745915031968:android:c133f00d458208f51644c5",
+        "android_client_info": {
+          "package_name": "com.lyra.infirmeriestock"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPhr9uvOnK30bsadqjo4uvQhuB9IsfJQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
