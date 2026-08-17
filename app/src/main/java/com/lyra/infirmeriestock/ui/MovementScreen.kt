@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.lyra.infirmeriestock.StockViewModel
 import com.lyra.infirmeriestock.data.MovementType
@@ -17,7 +19,12 @@ fun MovementScreen(viewModel: StockViewModel, product: Product, onBack: () -> Un
     var note by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Mouvement - " + product.name) }) }
+        topBar = { 
+            TopAppBar(
+                title = { Text("Mouvement - " + product.name, color = Color.White, fontWeight = FontWeight.Bold) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = BleuRoi)
+            ) 
+        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -26,12 +33,13 @@ fun MovementScreen(viewModel: StockViewModel, product: Product, onBack: () -> Un
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            Text("Stock actuel: ${product.quantity}", fontWeight = FontWeight.Bold)
             Row {
                 RadioButton(selected = type == MovementType.ENTREE, onClick = { type = MovementType.ENTREE })
-                Text("Entrée")
+                Text("Entrée", color = VertEmeraude, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.width(16.dp))
                 RadioButton(selected = type == MovementType.SORTIE, onClick = { type = MovementType.SORTIE })
-                Text("Sortie")
+                Text("Sortie", color = RougeVif, fontWeight = FontWeight.Bold)
             }
             OutlinedTextField(value = quantity, onValueChange = { quantity = it }, label = { Text("Quantité") })
             OutlinedTextField(value = note, onValueChange = { note = it }, label = { Text("Note (facultatif)") })
@@ -46,9 +54,12 @@ fun MovementScreen(viewModel: StockViewModel, product: Product, onBack: () -> Un
                     )
                     onBack()
                 },
-                enabled = quantity.toIntOrNull() != null && quantity.toIntOrNull()!! > 0
+                enabled = quantity.toIntOrNull() != null && quantity.toIntOrNull()!! > 0,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (type == MovementType.ENTREE) VertEmeraude else RougeVif
+                )
             ) {
-                Text("Enregistrer")
+                Text("Enregistrer", fontWeight = FontWeight.Bold)
             }
         }
     }
