@@ -1,4 +1,4 @@
-﻿package com.lyra.infirmeriestock.ui
+package com.lyra.infirmeriestock.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun AddProductScreen(viewModel: StockViewModel, onBack: () -> Unit) {
     var name by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("MÃ©dicament") }
+    var category by remember { mutableStateOf("Médicament") }
     var location by remember { mutableStateOf(Location.ARMOIRE.name) }
     var quantity by remember { mutableStateOf("") }
     var minStock by remember { mutableStateOf("") }
@@ -36,9 +36,9 @@ fun AddProductScreen(viewModel: StockViewModel, onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Nom") })
-            OutlinedTextField(value = category, onValueChange = { category = it }, label = { Text("CatÃ©gorie") })
+            OutlinedTextField(value = category, onValueChange = { category = it }, label = { Text("Catégorie") })
 
-            // SÃ©lecteur emplacement
+            // Sélecteur emplacement
             Location.entries.forEach { loc ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(selected = location == loc.name, onClick = { location = loc.name })
@@ -46,17 +46,17 @@ fun AddProductScreen(viewModel: StockViewModel, onBack: () -> Unit) {
                 }
             }
 
-            OutlinedTextField(value = quantity, onValueChange = { quantity = it }, label = { Text("QuantitÃ©") })
+            OutlinedTextField(value = quantity, onValueChange = { quantity = it }, label = { Text("Quantité") })
             OutlinedTextField(value = minStock, onValueChange = { minStock = it }, label = { Text("Stock minimum") })
             OutlinedTextField(
                 value = expiryDateText,
                 onValueChange = { expiryDateText = it },
-                label = { Text("Date pÃ©remption (AAAA-MM-JJ)") }
+                label = { Text("Date péremption (AAAA-MM-JJ)") }
             )
-            OutlinedTextField(value = lotNumber, onValueChange = { lotNumber = it }, label = { Text("NÂ° lot") })
+            OutlinedTextField(value = lotNumber, onValueChange = { lotNumber = it }, label = { Text("N° lot") })
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(checked = isStupefiant, onCheckedChange = { isStupefiant = it })
-                Text("StupÃ©fiant (coffre fort)")
+                Text("Stupéfiant (coffre fort)")
             }
 
             Button(
