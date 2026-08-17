@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.google.firebase.firestore.Timestamp
+import com.google.firebase.Timestamp
 import com.lyra.infirmeriestock.StockViewModel
 import com.lyra.infirmeriestock.data.Location
 import java.time.LocalDate
