@@ -1,4 +1,4 @@
-﻿package com.lyra.infirmeriestock.ui
+package com.lyra.infirmeriestock.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -17,7 +17,7 @@ fun MovementScreen(viewModel: StockViewModel, product: Product, onBack: () -> Un
     var note by remember { mutableStateOf("") }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Mouvement - ") }) }
+        topBar = { TopAppBar(title = { Text("Mouvement - " + product.name) }) }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -28,12 +28,12 @@ fun MovementScreen(viewModel: StockViewModel, product: Product, onBack: () -> Un
         ) {
             Row {
                 RadioButton(selected = type == MovementType.ENTREE, onClick = { type = MovementType.ENTREE })
-                Text("EntrÃ©e")
+                Text("Entrée")
                 Spacer(modifier = Modifier.width(16.dp))
                 RadioButton(selected = type == MovementType.SORTIE, onClick = { type = MovementType.SORTIE })
                 Text("Sortie")
             }
-            OutlinedTextField(value = quantity, onValueChange = { quantity = it }, label = { Text("QuantitÃ©") })
+            OutlinedTextField(value = quantity, onValueChange = { quantity = it }, label = { Text("Quantité") })
             OutlinedTextField(value = note, onValueChange = { note = it }, label = { Text("Note (facultatif)") })
 
             Button(
