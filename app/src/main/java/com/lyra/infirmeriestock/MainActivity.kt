@@ -37,6 +37,9 @@ fun PharmaVigilApp(viewModel: StockViewModel = viewModel()) {
                         onAddProduct = { navController.navigate("add") },
                         onMove = { product ->
                             navController.navigate("movement/" + product.id)
+                        },
+                        onEdit = { product ->
+                            navController.navigate("movement/" + product.id)
                         }
                     )
                 }
