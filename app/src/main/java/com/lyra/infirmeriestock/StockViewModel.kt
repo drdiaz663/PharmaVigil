@@ -2,7 +2,7 @@
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.Timestamp
+import com.google.firebase.Timestamp
 import com.lyra.infirmeriestock.data.Location
 import com.lyra.infirmeriestock.data.MovementType
 import com.lyra.infirmeriestock.data.Product
