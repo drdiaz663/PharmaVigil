@@ -1,4 +1,4 @@
-﻿package com.lyra.infirmeriestock
+package com.lyra.infirmeriestock
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -36,7 +36,7 @@ fun PharmaVigilApp(viewModel: StockViewModel = viewModel()) {
                         viewModel = viewModel,
                         onAddProduct = { navController.navigate("add") },
                         onMove = { product ->
-                            navController.navigate("movement/")
+                            navController.navigate("movement/" + product.id)
                         }
                     )
                 }
