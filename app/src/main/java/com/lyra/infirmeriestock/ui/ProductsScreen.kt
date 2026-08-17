@@ -51,7 +51,6 @@ fun ProductsScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
-            // Filtre par emplacement
             Row(
                 modifier = Modifier
                     .horizontalScroll(rememberScrollState())
@@ -95,19 +94,19 @@ fun ProductCard(product: Product, onMove: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(product.name, style = MaterialTheme.typography.titleMedium)
-            Text(" â€¢ QtÃ©: ")
+            Text(Location.valueOf(product.location).displayName + " • Qté: " + product.quantity)
             product.expiryDate?.let { ts ->
                 val expiry = ts.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 val days = ChronoUnit.DAYS.between(LocalDate.now(), expiry)
                 Text(
-                    "PÃ©remption:  ()",
+                    "Péremption: " + expiry + " (" + if (days >= 0) "J-" + days else "Expiré" + ")",
                     color = if (days <= 30) MaterialTheme.colorScheme.error
                     else MaterialTheme.colorScheme.onSurface
                 )
             }
             if (product.quantity <= product.minStock) {
                 Text(
-                    "âš ï¸ Stock bas (seuil: )",
+                    "⚠️ Stock bas (seuil: " + product.minStock + ")",
                     color = MaterialTheme.colorScheme.error
                 )
             }
