@@ -1,6 +1,6 @@
 ﻿package com.lyra.infirmeriestock.data
 
-import com.google.firebase.firestore.Timestamp
+import com.google.firebase.Timestamp
 
 enum class MovementType {
     ENTREE, SORTIE
