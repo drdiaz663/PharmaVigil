@@ -1,9 +1,8 @@
-﻿package com.lyra.infirmeriestock.worker
+package com.lyra.infirmeriestock.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.lyra.infirmeriestock.data.Location
 import com.lyra.infirmeriestock.data.StockRepository
 import java.time.LocalDate
 import java.time.ZoneId
@@ -31,7 +30,7 @@ class StockAlertWorker(context: Context, params: WorkerParameters) : CoroutineWo
                     context = applicationContext,
                     productName = product.name,
                     quantity = product.quantity,
-                    location = Location.valueOf(product.location).displayName
+                    location = product.location
                 )
             }
         }
