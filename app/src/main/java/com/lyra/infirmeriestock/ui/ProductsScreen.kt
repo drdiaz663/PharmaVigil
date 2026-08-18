@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.lyra.infirmeriestock.StockViewModel
-import com.lyra.infirmeriestock.data.Location
 import com.lyra.infirmeriestock.data.Product
 import java.time.LocalDate
 import java.time.ZoneId
@@ -29,12 +28,13 @@ val OrangeVif = Color(0xFFFF6D00)
 val RougeVif = Color(0xFFD50000)
 
 fun getLocationColor(location: String): Color {
-    return when (location) {
-        Location.ARMOIRE.name -> Color(0xFF37474F)
-        Location.BOITE_SECOURS_1.name -> Color(0xFF2E7D32)
-        Location.BOITE_SECOURS_2.name -> Color(0xFF1565C0)
-        Location.BOITE_SECOURS_3.name -> Color(0xFFE65100)
-        Location.COFFRE_FORT.name -> Color(0xFFC62828)
+    return when (location.lowercase()) {
+        "armoire", "armoire principale" -> Color(0xFF37474F)
+        "boîte de secours 1", "boite de secours 1" -> Color(0xFF2E7D32)
+        "boîte de secours 2", "boite de secours 2" -> Color(0xFF1565C0)
+        "boîte de secours 3", "boite de secours 3" -> Color(0xFFE65100)
+        "coffre fort", "coffre fort stupéfiants" -> Color(0xFFC62828)
+        "frigidaire", "frigo" -> Color(0xFF00838F)
         else -> Color(0xFF616161)
     }
 }
@@ -100,6 +100,9 @@ fun ProductsScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
+            // Filtre par emplacement (basé sur les emplacements existants)
+            val locations = products.map { it.location }.distinct().sorted()
+            
             Row(
                 modifier = Modifier
                     .horizontalScroll(rememberScrollState())
@@ -111,13 +114,13 @@ fun ProductsScreen(
                     onClick = { selectedLocation = null },
                     label = { Text("Tous") }
                 )
-                Location.entries.forEach { loc ->
+                locations.forEach { loc ->
                     FilterChip(
-                        selected = selectedLocation == loc.name,
-                        onClick = { selectedLocation = loc.name },
-                        label = { Text(loc.displayName) },
+                        selected = selectedLocation == loc,
+                        onClick = { selectedLocation = loc },
+                        label = { Text(loc) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = getLocationColor(loc.name).copy(alpha = 0.3f)
+                            selectedContainerColor = getLocationColor(loc).copy(alpha = 0.3f)
                         )
                     )
                 }
@@ -173,14 +176,16 @@ fun ProductCard(product: Product, onMove: () -> Unit, onEdit: () -> Unit) {
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        Location.valueOf(product.location).displayName,
+                        product.location,
                         color = Color.White,
                         fontSize = MaterialTheme.typography.labelSmall.fontSize
                     )
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Catégorie: " + product.category)
+            if (product.category.isNotBlank()) {
+                Text("Catégorie: " + product.category)
+            }
             Text("Qté: " + product.quantity + " (seuil: " + product.minStock + ")")
             Text("Péremption: " + formatDate(product.expiryDate))
             days?.let { d ->
