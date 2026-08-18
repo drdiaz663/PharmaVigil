@@ -1,4 +1,4 @@
-﻿package com.lyra.infirmeriestock.data
+package com.lyra.infirmeriestock.data
 
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -24,6 +24,13 @@ class StockRepository {
 
     suspend fun updateProduct(product: Product): Result<Unit> = try {
         productsRef.document(product.id).set(product).await()
+        Result.success(Unit)
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+
+    suspend fun deleteProduct(productId: String): Result<Unit> = try {
+        productsRef.document(productId).delete().await()
         Result.success(Unit)
     } catch (e: Exception) {
         Result.failure(e)
