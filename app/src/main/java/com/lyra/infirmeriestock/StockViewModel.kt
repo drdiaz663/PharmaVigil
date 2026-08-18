@@ -1,4 +1,4 @@
-﻿package com.lyra.infirmeriestock
+package com.lyra.infirmeriestock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -49,6 +49,22 @@ class StockViewModel : ViewModel() {
                 isStupefiant = isStupefiant
             )
             repo.addProduct(product)
+                .onSuccess { loadProducts() }
+                .onFailure { _message.value = it.message }
+        }
+    }
+
+    fun updateProduct(product: Product) {
+        viewModelScope.launch {
+            repo.updateProduct(product)
+                .onSuccess { loadProducts() }
+                .onFailure { _message.value = it.message }
+        }
+    }
+
+    fun deleteProduct(productId: String) {
+        viewModelScope.launch {
+            repo.deleteProduct(productId)
                 .onSuccess { loadProducts() }
                 .onFailure { _message.value = it.message }
         }
