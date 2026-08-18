@@ -3,7 +3,6 @@ package com.lyra.infirmeriestock
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
-import com.lyra.infirmeriestock.data.Location
 import com.lyra.infirmeriestock.data.MovementType
 import com.lyra.infirmeriestock.data.Product
 import com.lyra.infirmeriestock.data.StockMovement
