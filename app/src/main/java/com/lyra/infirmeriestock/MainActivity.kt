@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.lyra.infirmeriestock.ui.AddProductScreen
+import com.lyra.infirmeriestock.ui.EditProductScreen
 import com.lyra.infirmeriestock.ui.MovementScreen
 import com.lyra.infirmeriestock.ui.ProductsScreen
 
@@ -39,7 +40,7 @@ fun PharmaVigilApp(viewModel: StockViewModel = viewModel()) {
                             navController.navigate("movement/" + product.id)
                         },
                         onEdit = { product ->
-                            navController.navigate("movement/" + product.id)
+                            navController.navigate("edit/" + product.id)
                         }
                     )
                 }
@@ -48,6 +49,17 @@ fun PharmaVigilApp(viewModel: StockViewModel = viewModel()) {
                         viewModel = viewModel,
                         onBack = { navController.popBackStack() }
                     )
+                }
+                composable("edit/{productId}") { backStackEntry ->
+                    val productId = backStackEntry.arguments?.getString("productId")
+                    val product = viewModel.products.value.find { it.id == productId }
+                    if (product != null) {
+                        EditProductScreen(
+                            viewModel = viewModel,
+                            product = product,
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
                 }
                 composable("movement/{productId}") { backStackEntry ->
                     val productId = backStackEntry.arguments?.getString("productId")
