@@ -56,8 +56,9 @@ fun MovementScreen(viewModel: StockViewModel, product: Product, onBack: () -> Un
                 },
                 enabled = quantity.toIntOrNull() != null && quantity.toIntOrNull()!! > 0,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (type == MovementType.ENTREE) VertEmeraude else RougeVif
-                )
+    containerColor = if (type == MovementType.ENTREE) VertEmeraude else RougeVif,
+    contentColor = Color.White
+)
             ) {
                 Text("Enregistrer", fontWeight = FontWeight.Bold)
             }
