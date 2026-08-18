@@ -1,6 +1,5 @@
 package com.lyra.infirmeriestock.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,8 +12,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.google.firebase.Timestamp
 import com.lyra.infirmeriestock.StockViewModel
-import com.lyra.infirmeriestock.data.CATEGORIES
-import com.lyra.infirmeriestock.data.Location
 import com.lyra.infirmeriestock.data.Product
 import java.time.LocalDate
 import java.time.ZoneId
@@ -32,25 +29,24 @@ fun EditProductScreen(
     var location by remember { mutableStateOf(product.location) }
     var quantity by remember { mutableStateOf(product.quantity.toString()) }
     var minStock by remember { mutableStateOf(product.minStock.toString()) }
-    var expiryDateText by remember { 
+    var expiryDateText by remember {
         mutableStateOf(
             product.expiryDate?.let { ts ->
                 val date = ts.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
             } ?: ""
-        ) 
+        )
     }
     var lotNumber by remember { mutableStateOf(product.lotNumber) }
     var isStupefiant by remember { mutableStateOf(product.isStupefiant) }
-    var categoryExpanded by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { 
+        topBar = {
             TopAppBar(
                 title = { Text("Modifier le produit", color = Color.White, fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = BleuRoi)
-            ) 
+            )
         }
     ) { padding ->
         Column(
@@ -62,58 +58,35 @@ fun EditProductScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
-                value = name, 
-                onValueChange = { name = it }, 
-                label = { Text("Nom du produit") },
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Nom du produit *") },
                 modifier = Modifier.fillMaxWidth()
             )
-            
-            // Menu déroulant catégorie
-            ExposedDropdownMenuBox(
-                expanded = categoryExpanded,
-                onExpandedChange = { categoryExpanded = it }
-            ) {
-                OutlinedTextField(
-                    value = category,
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { Text("Catégorie") },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                ExposedDropdownMenu(
-                    expanded = categoryExpanded,
-                    onDismissRequest = { categoryExpanded = false }
-                ) {
-                    CATEGORIES.forEach { cat ->
-                        DropdownMenuItem(
-                            text = { Text(cat) },
-                            onClick = {
-                                category = cat
-                                categoryExpanded = false
-                            }
-                        )
-                    }
-                }
-            }
-
-            // Emplacement
-            Location.entries.forEach { loc ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(selected = location == loc.name, onClick = { location = loc.name })
-                    Text(loc.displayName)
-                }
-            }
 
             OutlinedTextField(
-                value = quantity, 
-                onValueChange = { quantity = it }, 
+                value = category,
+                onValueChange = { category = it },
+                label = { Text("Catégorie") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = location,
+                onValueChange = { location = it },
+                label = { Text("Emplacement *") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = quantity,
+                onValueChange = { quantity = it },
                 label = { Text("Quantité") },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
-                value = minStock, 
-                onValueChange = { minStock = it }, 
+                value = minStock,
+                onValueChange = { minStock = it },
                 label = { Text("Stock minimum") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -125,14 +98,14 @@ fun EditProductScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
-                value = lotNumber, 
-                onValueChange = { lotNumber = it }, 
+                value = lotNumber,
+                onValueChange = { lotNumber = it },
                 label = { Text("N° lot") },
                 modifier = Modifier.fillMaxWidth()
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(checked = isStupefiant, onCheckedChange = { isStupefiant = it })
-                Text("Stupéfiant (coffre fort)")
+                Text("Stupéfiant")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -160,7 +133,7 @@ fun EditProductScreen(
                     )
                     onBack()
                 },
-                enabled = name.isNotBlank(),
+                enabled = name.isNotBlank() && location.isNotBlank(),
                 colors = ButtonDefaults.buttonColors(containerColor = VertEmeraude),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -181,7 +154,7 @@ fun EditProductScreen(
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
             title = { Text("Confirmer la suppression") },
-            text = { Text("Voulez-vous vraiment supprimer ${product.name} ?") },
+            text = { Text("Voulez-vous vraiment supprimer " + product.name + " ?") },
             confirmButton = {
                 Button(
                     onClick = {
